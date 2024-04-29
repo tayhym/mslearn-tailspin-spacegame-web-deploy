@@ -65,15 +65,9 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'Dev'
+- stage: 'Deploy'
   displayName: 'Deploy the web application'
   dependsOn: Build
-  condition: | 
-    and 
-    (
-      succeeded(),
-      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
-    )
   jobs:
   - deployment: Deploy
     pool:
