@@ -65,16 +65,16 @@ stages:
 
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
+
 - stage: 'Dev'
   displayName: 'Deploy to the dev environment'
-  dependsOn: Build 
+  dependsOn: Build
   condition: |
-    and 
+    and
     (
       succeeded(),
-      eq(variables['Build/SourceBranchName'], variables['releaseBranchName'])
+      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
     )
-
   jobs:
   - deployment: Deploy
     pool:
@@ -91,6 +91,6 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: 'tailspin-space-game-rg'
+              azureSubscription: 'Resource Manager - Tailspin - Space Game'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
